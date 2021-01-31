@@ -25,7 +25,8 @@ SECRET_KEY = "i=ay+u_lkbx^25j2p)^d$&_i!@bvdqsl^a_^o+un+ye_q!$=%8"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["172.29.5.169"]
+# "172.29.5.169" = dynamics ip of WSL for Windows
+ALLOWED_HOSTS = ["172.29.5.169", "127.0.0.1", "localhost"]
 
 
 # Application definition
