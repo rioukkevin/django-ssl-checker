@@ -3,4 +3,10 @@ from django.http import HttpResponse
 
 # View
 def defaultView(request):
-    return HttpResponse("Hello Checkers!")
+    return render(
+        request,
+        "checkers/test.html",
+        {
+            "message": "Hello Checkers!",
+        },
+    )
