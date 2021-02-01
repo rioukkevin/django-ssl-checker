@@ -1,5 +1,4 @@
 from django.db import models
-from runners.models import RunnersModel
 
 # Create your models here.
 class CheckersModel(models.Model):
@@ -13,13 +12,9 @@ class CheckersModel(models.Model):
     modified = models.DateTimeField(auto_now=True, verbose_name="Date de modification")
     check = models.PositiveIntegerField(
         choices=CHECK_MODES,
-        default=None,
+        default=1,
         blank=False,
         null=False,
-    )
-    runner = models.OneToOneField(
-        RunnersModel,
-        on_delete=models.CASCADE,
     )
 
     class Meta:
