@@ -21,7 +21,7 @@ class FormWithSubmit(forms.Form):
 class RunnersFormCreate(FormWithSubmit):
     website = forms.ChoiceField(
         label="Nom du site web",
-        choices=[],
+        choices=WebsitesModel.objects.all(),
         required=True,
     )
 

@@ -1,7 +1,11 @@
-from .forms import RunnersFormCreate
+# from .forms import RunnersFormCreate
+from django.http.response import JsonResponse
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
+from .models import RunnersModel
+from django.views.generic.edit import FormView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 # View
 def defaultView(request):
@@ -14,21 +18,15 @@ def defaultView(request):
     )
 
 
-def create(request):
-    if request.method == "POST":
-        form = RunnersFormCreate(request.POST)
-        if form.is_valid():
-            print("GOOD")
-            return HttpResponseRedirect(reverse("websites:default"))
-    else:
-        form = RunnersFormCreate()
-        print("NOT GOOD")
-    return render(
-        request,
-        "create.html",
-        {
-            "url_form": reverse("runners:create"),
-            "title": "Création d'un runner pour un site web",
-            "form": form,
-        },
-    )
+class RunnersCreate(CreateView):
+    model = RunnersModel
+    fields = ["websites", "checkers"]
+    success_url = "/runners/test"
+
+    def form_invalid(self, form):
+        return HttpResponseRedirect(reverse("websites:default"))
+
+    def form_valid(self, form):
+        # TODO execute COMMAND
+        response = super().form_valid(form)
+        return response
