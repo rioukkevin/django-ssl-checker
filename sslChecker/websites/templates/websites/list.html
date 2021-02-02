@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#id</th>
+          <th scope="col">Nom</th>
+          <th scope="col">Url</th>
+          <th scope="col">Date de création</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for website in websites %}
+        <tr>
+          <th scope="row"> {{website.id}}</th>
+          <td>{{website.name}}</td>
+          <td><a class="link" href="{{website.url}}">{{website.url}}</a></td>
+          <td>{{website.created}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock content %}

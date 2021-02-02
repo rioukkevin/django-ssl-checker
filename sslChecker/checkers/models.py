@@ -1,18 +1,17 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 class CheckersModel(models.Model):
-
-    CHECK_MODES = (
-        (1, "VALIDITY"),  # Respond with a valid ssl certificate (ssl validity)
-        (2, "HTTPOK"),  # Respond with http code 200
-    )
+    class CHECKS(models.TextChoices):
+        VALIDITY = "VALIDITY", _("Validity")
+        HTTPOK = "HTTPOK", _("HTTPok")
 
     created = models.DateTimeField(auto_now_add=True, verbose_name="Date de création")
     modified = models.DateTimeField(auto_now=True, verbose_name="Date de modification")
-    check = models.PositiveIntegerField(
-        choices=CHECK_MODES,
-        default=1,
+    check = models.TextField(
+        choices=CHECKS.choices,
+        default=CHECKS.VALIDITY,
         blank=False,
         null=False,
     )

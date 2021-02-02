@@ -1,6 +1,6 @@
 # TODO
 
-- Make functionnal runners create
+<!-- - Make functionnal runners create -->
 
 - Method to execute checkers
 

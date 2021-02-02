@@ -8,5 +8,6 @@ from runners import views
 app_name = "runners"
 urlpatterns = [
     path("test/", views.defaultView, name="default"),
+    path("list/", views.listRunners, name="list"),
     path("create/", RunnersCreate.as_view(), name="create"),
 ]

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#id</th>
+          <th scope="col">Website</th>
+          <th scope="col">Checkers</th>
+          <th scope="col">A fonctionné</th>
+          <th scope="col">Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for runner in runners %}
+        <tr>
+          <th scope="row"> {{runner.id}}</th>
+          <td>{{runner.websites}} {{ ' ' }}<a class="link" href="{{runner.websites.url}}">{{runner.websites.url}}</a></td>
+          <td>{% for checker in runner.checkers.all %} {{checker.check}} {{ ' ' }} {% endfor %}</td>
+          <td>{{runner.isSuccess}}</td>
+          <td>{{runner.created}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock content %}

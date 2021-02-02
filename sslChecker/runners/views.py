@@ -30,3 +30,14 @@ class RunnersCreate(CreateView):
         # TODO execute COMMAND
         response = super().form_valid(form)
         return response
+
+
+def listRunners(request):
+    runners = RunnersModel.objects.order_by("-created")
+    return render(
+        request,
+        "runners/list.html",
+        {
+            "runners": runners,
+        },
+    )
