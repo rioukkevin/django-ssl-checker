@@ -4,13 +4,15 @@ from django.db import models
 class WebsitesModel(models.Model):
     created = models.DateTimeField(auto_now_add=True, verbose_name="Date de création")
     modified = models.DateTimeField(auto_now=True, verbose_name="Date de modification")
-    name = models.TextField(
+    name = models.CharField(
         primary_key=False,
+        max_length=200,
         verbose_name="Nom du site à inspecter",
         blank=False,
     )
-    url = models.TextField(
+    url = models.CharField(
         primary_key=False,
+        max_length=2000,
         verbose_name="Url du site à inspecter",
         blank=False,
         default="https://google.com",

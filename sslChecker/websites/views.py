@@ -55,6 +55,12 @@ class WebsitesCreate(CreateView):
         return response
 
 
+class WebsitesUpdate(UpdateView):
+    model = WebsitesModel
+    fields = ["name", "url"]
+    success_url = "/websites/list"
+
+
 def listWebsites(request):
     websites = WebsitesModel.objects.order_by("name")
     return render(
