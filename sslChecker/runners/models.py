@@ -13,12 +13,14 @@ class RunnersModel(models.Model):
         unique=False,
         null=True,
     )
-    checkers = models.ForeignKey(
+    # Many to Many exemple md
+    checkers = models.ManyToManyField(
         CheckersModel,
-        on_delete=models.CASCADE,
-        unique=False,
-        null=True,
+        blank=True,
     )
+
+    def __str__(self):
+        return str(self.websites.name)
 
     class Meta:
         abstract = False

@@ -4,7 +4,7 @@ from django.db import models
 class CheckersModel(models.Model):
 
     CHECK_MODES = (
-        (1, "VALIDITY"),  # Respond with a valid ssl certificate
+        (1, "VALIDITY"),  # Respond with a valid ssl certificate (ssl validity)
         (2, "HTTPOK"),  # Respond with http code 200
     )
 
@@ -16,6 +16,9 @@ class CheckersModel(models.Model):
         blank=False,
         null=False,
     )
+
+    def __str__(self):
+        return str(self.check)
 
     class Meta:
         abstract = False

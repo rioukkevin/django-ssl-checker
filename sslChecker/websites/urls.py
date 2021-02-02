@@ -7,4 +7,5 @@ from websites import views
 app_name = "websites"
 urlpatterns = [
     path("test/", views.defaultView, name="default"),
+    path("create/", views.create, name="create"),
 ]
