@@ -1,4 +1,7 @@
 import requests
+import OpenSSL
+import ssl
+import socket
 
 
 def checkHTTPOK(url):
@@ -16,12 +19,15 @@ def checkVALIDITY(url):
     else:
         return True
 
-# TODO add ssl certificate verif
-# pool = req.connection.poolmanager.connection_from_url('https://httpbin.org')
-# conn = pool.pool.get()
-# # get() removes it from the pool, so put it back in
-# pool.pool.put(conn)
-# print(conn.sock.getpeercert())
+
+def checkSSLNOTEXPIRED(url):
+    try:
+        cert = ssl.get_server_certificate((url, 443))
+    except:
+        return False
+    certificate = OpenSSL.crypto.load_certificate(
+        OpenSSL.crypto.FILETYPE_PEM, cert)
+    return not certificate.has_expired()
 
 
 class CheckRunner():
@@ -33,6 +39,7 @@ class CheckRunner():
         self.url = url
         vars(self)['VALIDITY'] = checkVALIDITY
         vars(self)['HTTPOK'] = checkHTTPOK
+        vars(self)['SSLNOTEXPIRED'] = checkSSLNOTEXPIRED
 
     def execute(self):
         isSuccess = True
