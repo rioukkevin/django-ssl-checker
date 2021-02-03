@@ -6,8 +6,11 @@ from django.urls import reverse
 from .models import RunnersModel
 from django.views.generic.edit import FormView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from checkers.utils import CheckRunner
 
 # View
+
+
 def defaultView(request):
     return render(
         request,
@@ -21,13 +24,20 @@ def defaultView(request):
 class RunnersCreate(CreateView):
     model = RunnersModel
     fields = ["websites", "checkers"]
-    success_url = "/runners/test"
+    success_url = "/runners/list"
 
     def form_invalid(self, form):
         return HttpResponseRedirect(reverse("websites:default"))
 
     def form_valid(self, form):
-        # TODO execute COMMAND
+        form.save()
+        hasCheckersSucceeded = False
+        checkersInstance = CheckRunner(
+            form.instance.checkers.all(), form.instance.websites.url)
+        hasCheckersSucceeded = checkersInstance.execute()
+        if hasCheckersSucceeded:
+            form.instance.isSuccess = True
+            form.instance.save()
         response = super().form_valid(form)
         return response
 

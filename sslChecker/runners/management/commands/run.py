@@ -46,25 +46,22 @@ class Command(BaseCommand):
                 runner = RunnersModel(websites=website)
                 runner.save()
                 runner.checkers.set(checkers)
-                print(runner.id)
         except:
             self.stdout.write("Cannot create runner, something went wrong ! 🔴")
             isSuccess = False
 
         hasCheckersSucceeded = False
-        # try:
-        if isSuccess:
-            checkersInstance = CheckRunner(checkers, website.url)
-            hasCheckersSucceeded = checkersInstance.execute()
-            print(hasCheckersSucceeded)
-        # except:
-        #     self.stdout.write("An error append when executing scripts ! 🔴")
+        try:
+            if isSuccess:
+                checkersInstance = CheckRunner(checkers, website.url)
+                hasCheckersSucceeded = checkersInstance.execute()
+        except:
+            self.stdout.write("An error append when executing scripts ! 🔴")
 
         try:
             if hasCheckersSucceeded:
                 runner.isSuccess = True
                 runner.save()
-                print(runner.isSuccess)
         except:
             self.stdout.write("Cannot update status ! 🔴")
 

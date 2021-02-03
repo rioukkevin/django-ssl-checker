@@ -3,7 +3,7 @@ import requests
 
 def checkHTTPOK(url):
     response = requests.get(url)
-    if response.ok:
+    if response.status_code == 200:
         return True
     else:
         return False
@@ -15,6 +15,13 @@ def checkVALIDITY(url):
         return False
     else:
         return True
+
+# TODO add ssl certificate verif
+# pool = req.connection.poolmanager.connection_from_url('https://httpbin.org')
+# conn = pool.pool.get()
+# # get() removes it from the pool, so put it back in
+# pool.pool.put(conn)
+# print(conn.sock.getpeercert())
 
 
 class CheckRunner():
@@ -28,9 +35,9 @@ class CheckRunner():
         vars(self)['HTTPOK'] = checkHTTPOK
 
     def execute(self):
-        isSuccess = False
+        isSuccess = True
         for ch in self.checks:
             isIndependantSuccess = vars(self)[ch.check](self.url)
-            if isIndependantSuccess:
-                isSuccess = True
+            if not isIndependantSuccess:
+                isSuccess = False
         return isSuccess
