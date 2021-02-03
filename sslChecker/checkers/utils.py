@@ -18,19 +18,19 @@ def checkVALIDITY(url):
 
 
 class CheckRunner():
-    VALIDITY = checkVALIDITY
-    HTTPOK = checkHTTPOK
-
     checks = []
     url = ''
 
     def __init__(self, checks, url):
         self.checks = checks
+        self.url = url
+        vars(self)['VALIDITY'] = checkVALIDITY
+        vars(self)['HTTPOK'] = checkHTTPOK
 
     def execute(self):
         isSuccess = False
         for ch in self.checks:
-            isIndependantSuccess = self[ch](self.url)
+            isIndependantSuccess = vars(self)[ch.check](self.url)
             if isIndependantSuccess:
                 isSuccess = True
         return isSuccess

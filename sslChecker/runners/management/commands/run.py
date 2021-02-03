@@ -1,3 +1,4 @@
+from checkers.utils import CheckRunner
 import os
 import sys
 import datetime
@@ -15,12 +16,14 @@ from checkers.models import CheckersModel
 class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument("website", help="Indicate website id")
-        parser.add_argument("checkers", help="Indicate checkers list separated by '-'")
+        parser.add_argument(
+            "checkers", help="Indicate checkers list separated by '-'")
 
     def handle(self, *args, **options):
         self.stdout.write("Running... 💫")
         isSuccess = True
         website = None
+        runner = None
         try:
             website = WebsitesModel.objects.get(id=options["website"])
         except:
@@ -38,22 +41,32 @@ class Command(BaseCommand):
             self.stdout.write("One or more checkers are incorrects ! 🔴")
             isSuccess = False
 
-        # try:
-        #     if isSuccess:
-        #         runner = RunnersModel(website=website, checkers=checkers)
-        #         runner.save()
-        # except:
-        #     self.stdout.write("Cannot create runner, something went wrong ! 🔴")
-        #     isSuccess = False
+        try:
+            if isSuccess:
+                runner = RunnersModel(websites=website)
+                runner.save()
+                runner.checkers.set(checkers)
+                print(runner.id)
+        except:
+            self.stdout.write("Cannot create runner, something went wrong ! 🔴")
+            isSuccess = False
 
+        hasCheckersSucceeded = False
         # try:
-        #     if isSuccess:
-        #         for c in checkers:
-        #             print(c)
+        if isSuccess:
+            checkersInstance = CheckRunner(checkers, website.url)
+            hasCheckersSucceeded = checkersInstance.execute()
+            print(hasCheckersSucceeded)
         # except:
         #     self.stdout.write("An error append when executing scripts ! 🔴")
-        # TOD execute scripts
-        # TOD update runner by id
+
+        try:
+            if hasCheckersSucceeded:
+                runner.isSuccess = True
+                runner.save()
+                print(runner.isSuccess)
+        except:
+            self.stdout.write("Cannot update status ! 🔴")
 
         if isSuccess:
             self.stdout.write("Done ! 🟢")
