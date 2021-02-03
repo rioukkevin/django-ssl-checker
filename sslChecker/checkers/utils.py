@@ -15,3 +15,22 @@ def checkVALIDITY(url):
         return False
     else:
         return True
+
+
+class CheckRunner():
+    VALIDITY = checkVALIDITY
+    HTTPOK = checkHTTPOK
+
+    checks = []
+    url = ''
+
+    def __init__(self, checks, url):
+        self.checks = checks
+
+    def execute(self):
+        isSuccess = False
+        for ch in self.checks:
+            isIndependantSuccess = self[ch](self.url)
+            if isIndependantSuccess:
+                isSuccess = True
+        return isSuccess
