@@ -1,9 +1,5 @@
-{% extends "base.html" %}
-{% load crispy_forms_tags %}
-{% block title %}
-    {{ title }}
-{% endblock %}
-{% block content %}
+{% extends "base.html" %} {% load crispy_forms_tags %} {% block title %} {{
+title }} {% endblock %} {% block content %}
 <div class="container">
   <div class="row">
     <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
@@ -11,10 +7,20 @@
         <div class="card-body">
           <h5 class="card-title text-center">{{ title }}</h5>
           <div class="sub_title"></div>
+          <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading">Chechers</h4>
+            <p>HTTPOK: check if page respond with 200 code</p>
+            <hr />
+            <p>VALIDITY: check if page is not redirected</p>
+            <hr />
+            <p>
+              SSLNOTEXPIRED: check if page has a valid certificate not expired
+            </p>
+          </div>
           <div class="custom_form_embed">
-            <form method="post">{% csrf_token %}
-              {{ form|crispy }}
-              <input type="submit" value="Save" class="btn btn-success">
+            <form method="post">
+              {% csrf_token %} {{ form|crispy }}
+              <input type="submit" value="Save" class="btn btn-success" />
             </form>
           </div>
         </div>
